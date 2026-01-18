@@ -41,9 +41,9 @@ export default function Services() {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
     return (
-        <section id="services" className="bg-[#0E0E0F] py-32 px-4 sm:px-6 relative overflow-hidden">
+        <section id="services" className="bg-[#0A1628] py-32 px-4 sm:px-6 relative overflow-hidden">
             {/* Background elements */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-600/5 rounded-full blur-[200px]" />
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#4169FF]/5 rounded-full blur-[200px]" />
 
             <div className="max-w-7xl mx-auto relative z-10">
                 <motion.div
@@ -78,22 +78,22 @@ export default function Services() {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: hoveredIndex === index ? 1 : 0 }}
                                 transition={{ duration: 0.3 }}
-                                className="absolute inset-0 bg-gradient-to-r from-[#B9FF3E]/5 via-white/[0.02] to-transparent backdrop-blur-sm"
+                                className="absolute inset-0 bg-gradient-to-r from-[#4169FF]/10 via-white/[0.02] to-transparent backdrop-blur-sm"
                             />
 
                             <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 px-4">
                                 {/* Service Number */}
-                                <span className="text-[#B9FF3E] font-mono text-sm w-8">
+                                <span className="text-[#00D9FF] font-mono text-sm w-8">
                                     {service.id}
                                 </span>
 
                                 {/* Icon */}
-                                <div className="hidden md:flex w-12 h-12 rounded-xl bg-white/5 items-center justify-center group-hover:bg-[#B9FF3E]/10 transition-colors">
-                                    <service.icon className="w-5 h-5 text-white/50 group-hover:text-[#B9FF3E] transition-colors" />
+                                <div className="hidden md:flex w-12 h-12 rounded-xl bg-white/5 items-center justify-center group-hover:bg-[#4169FF]/20 transition-colors">
+                                    <service.icon className="w-5 h-5 text-white/50 group-hover:text-[#00D9FF] transition-colors" />
                                 </div>
 
                                 {/* Title */}
-                                <h3 className="text-2xl sm:text-3xl md:text-4xl text-white font-medium flex-1 group-hover:text-[#B9FF3E] transition-colors">
+                                <h3 className="text-2xl sm:text-3xl md:text-4xl text-white font-medium flex-1 group-hover:text-[#00D9FF] transition-colors">
                                     {service.title}
                                 </h3>
 
@@ -113,8 +113,8 @@ export default function Services() {
                                 </motion.div>
 
                                 {/* Arrow */}
-                                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#B9FF3E] transition-all">
-                                    <ArrowUpRight className="w-5 h-5 text-white/50 group-hover:text-black group-hover:rotate-45 transition-all" />
+                                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-gradient-to-r group-hover:from-[#4169FF] group-hover:to-[#00D9FF] transition-all">
+                                    <ArrowUpRight className="w-5 h-5 text-white/50 group-hover:text-white group-hover:rotate-45 transition-all" />
                                 </div>
                             </div>
                         </motion.div>

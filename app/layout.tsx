@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/ui/SmoothScroll";
 
@@ -12,6 +12,12 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
 });
@@ -67,7 +73,7 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
   manifest: "/site.webmanifest",
-  themeColor: "#0F172A",
+  themeColor: "#4169FF",
 };
 
 export default function RootLayout({
@@ -78,7 +84,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-slate-900 dark:bg-[#0f172a] dark:text-white`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased bg-white text-slate-900 dark:bg-[#0A1628] dark:text-white font-sans`}
       >
         {/* You can wrap this in Providers if using Theme/Session/Store */}
         <SmoothScroll>{children}</SmoothScroll>

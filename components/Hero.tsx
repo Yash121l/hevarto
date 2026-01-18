@@ -15,15 +15,13 @@ export default function Hero() {
     const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
     return (
-        <section ref={ref} className="relative w-full h-screen overflow-hidden bg-[#0E0E0F] text-white">
-            {/* Background Image with Parallax */}
+        <section ref={ref} className="relative w-full h-screen overflow-hidden bg-[#0A1628] text-white">
+            {/* Background with Gradient */}
             <motion.div style={{ y }} className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[#0E0E0F] z-10" />
-                <img
-                    src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
-                    alt="Background"
-                    className="w-full h-full object-cover opacity-60"
-                />
+                <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628] via-[#0A1628]/80 to-[#0A1628] z-10" />
+                {/* Hexagonal Pattern Overlay */}
+                <div className="absolute inset-0 hex-pattern opacity-30 z-[5]" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#4169FF]/20 via-transparent to-[#6B5FFF]/20" />
             </motion.div>
 
             {/* Floating Gradient Orbs */}
@@ -38,7 +36,7 @@ export default function Hero() {
                         repeat: Infinity,
                         ease: "easeInOut",
                     }}
-                    className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[150px]"
+                    className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#4169FF]/20 rounded-full blur-[150px]"
                 />
                 <motion.div
                     animate={{
@@ -50,7 +48,7 @@ export default function Hero() {
                         repeat: Infinity,
                         ease: "easeInOut",
                     }}
-                    className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-500/20 rounded-full blur-[120px]"
+                    className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-[#00D9FF]/20 rounded-full blur-[120px]"
                 />
                 <motion.div
                     animate={{
@@ -62,7 +60,7 @@ export default function Hero() {
                         repeat: Infinity,
                         ease: "easeInOut",
                     }}
-                    className="absolute top-1/2 right-1/3 w-[300px] h-[300px] bg-[#B9FF3E]/15 rounded-full blur-[100px]"
+                    className="absolute top-1/2 right-1/3 w-[300px] h-[300px] bg-[#6B5FFF]/15 rounded-full blur-[100px]"
                 />
             </div>
 
@@ -75,9 +73,9 @@ export default function Hero() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-[#4169FF]/30 backdrop-blur-md mb-8"
                 >
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="w-2 h-2 rounded-full bg-[#00D9FF] animate-pulse" />
                     <span className="text-sm text-gray-300 tracking-wide font-medium">
                         ACCEPTING NEW CLIENTS
                     </span>
@@ -91,7 +89,8 @@ export default function Hero() {
                     className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-serif tracking-tight leading-[0.9] text-white mb-8"
                 >
                     Your Vision, <br />
-                    <span className="italic font-light text-white/80">Our Solution.</span>
+                    <span className="italic font-light text-white/80">Our </span>
+                    <span className="italic font-light text-gradient-blue">Solution.</span>
                 </motion.h1>
 
                 {/* Subheading */}
@@ -112,14 +111,14 @@ export default function Hero() {
                     transition={{ duration: 0.8, delay: 0.6 }}
                     className="flex flex-col sm:flex-row items-center gap-4"
                 >
-                    <button className="group relative px-8 py-4 bg-[#B9FF3E] text-black rounded-full font-semibold transition-all hover:scale-105 flex items-center gap-2 overflow-hidden">
+                    <button className="group relative px-8 py-4 bg-gradient-to-r from-[#4169FF] to-[#00D9FF] text-white rounded-full font-semibold transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(65,105,255,0.4)] flex items-center gap-2 overflow-hidden">
                         <span className="relative z-10">Start Your Project</span>
                         <MoveRight className="w-4 h-4 transition-transform group-hover:translate-x-1 relative z-10" />
-                        <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#00D9FF] to-[#4169FF] opacity-0 group-hover:opacity-100 transition-opacity" />
                     </button>
 
-                    <button className="group px-8 py-4 bg-white/5 border border-white/10 backdrop-blur-md rounded-full text-white font-medium transition-all hover:bg-white/10 flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                    <button className="group px-8 py-4 bg-white/5 border border-white/10 backdrop-blur-md rounded-full text-white font-medium transition-all hover:bg-white/10 hover:border-[#4169FF]/30 flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#4169FF] to-[#00D9FF] text-white flex items-center justify-center">
                             <Play className="w-3 h-3 fill-current ml-0.5" />
                         </div>
                         Our Showreel
@@ -136,10 +135,10 @@ export default function Hero() {
             >
                 <span className="text-xs text-gray-500 uppercase tracking-widest">Trusted by</span>
                 <div className="flex items-center gap-8 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-                    <span className="text-lg font-bold">ACME</span>
-                    <span className="text-lg font-bold">VORTEX</span>
-                    <span className="text-lg font-bold">LUMEN</span>
-                    <span className="text-lg font-bold">SOLARIS</span>
+                    <span className="text-lg font-bold text-[#4169FF]/70">ACME</span>
+                    <span className="text-lg font-bold text-[#00D9FF]/70">VORTEX</span>
+                    <span className="text-lg font-bold text-[#5B7FFF]/70">LUMEN</span>
+                    <span className="text-lg font-bold text-[#6B5FFF]/70">SOLARIS</span>
                 </div>
             </motion.div>
         </section>

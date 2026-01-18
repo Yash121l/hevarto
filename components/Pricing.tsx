@@ -61,9 +61,9 @@ export default function Pricing() {
     const [isYearly, setIsYearly] = useState(false);
 
     return (
-        <section id="pricing" className="bg-[#0E0E0F] py-32 px-4 sm:px-6 relative overflow-hidden">
+        <section id="pricing" className="bg-[#0A1628] py-32 px-4 sm:px-6 relative overflow-hidden">
             {/* Background Glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#B9FF3E]/5 rounded-full blur-[200px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#4169FF]/5 rounded-full blur-[200px]" />
 
             <div className="max-w-7xl mx-auto relative z-10">
                 <motion.div
@@ -75,7 +75,7 @@ export default function Pricing() {
                 >
                     <h2 className="text-4xl sm:text-6xl text-white font-serif mb-6">
                         Simple, <span className="italic text-white/50">Transparent</span>{" "}
-                        <span className="text-[#B9FF3E]">Pricing</span>
+                        <span className="text-gradient-blue">Pricing</span>
                     </h2>
                     <p className="text-gray-400 max-w-2xl mx-auto text-lg mb-10">
                         Choose the plan that fits your needs. All plans include our signature quality and attention to detail.
@@ -93,12 +93,12 @@ export default function Pricing() {
                             <motion.div
                                 animate={{ x: isYearly ? 32 : 0 }}
                                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                                className="w-6 h-6 rounded-full bg-[#B9FF3E]"
+                                className="w-6 h-6 rounded-full bg-gradient-to-r from-[#4169FF] to-[#00D9FF]"
                             />
                         </button>
                         <span className={`text-sm font-medium transition-colors ${isYearly ? "text-white" : "text-gray-500"}`}>
                             Yearly
-                            <span className="ml-2 text-xs text-[#B9FF3E] font-semibold">Save 17%</span>
+                            <span className="ml-2 text-xs text-[#00D9FF] font-semibold">Save 17%</span>
                         </span>
                     </div>
                 </motion.div>
@@ -113,14 +113,14 @@ export default function Pricing() {
                             transition={{ duration: 0.6, delay: index * 0.15 }}
                             viewport={{ once: true }}
                             className={`relative group rounded-3xl p-8 transition-all duration-500 ${plan.popular
-                                    ? "bg-gradient-to-b from-[#B9FF3E]/20 to-transparent border-2 border-[#B9FF3E]/50 scale-105 md:scale-110"
-                                    : "bg-white/[0.03] border border-white/10 hover:border-white/20 hover:bg-white/[0.05]"
+                                ? "bg-gradient-to-b from-[#4169FF]/20 to-transparent border-2 border-[#4169FF]/50 scale-105 md:scale-110"
+                                : "bg-white/[0.03] border border-white/10 hover:border-white/20 hover:bg-white/[0.05]"
                                 }`}
                         >
                             {/* Popular Badge */}
                             {plan.popular && (
                                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                                    <div className="flex items-center gap-1.5 px-4 py-1.5 bg-[#B9FF3E] text-black text-xs font-bold rounded-full">
+                                    <div className="flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-[#4169FF] to-[#00D9FF] text-white text-xs font-bold rounded-full">
                                         <Sparkles className="w-3.5 h-3.5" />
                                         MOST POPULAR
                                     </div>
@@ -154,9 +154,9 @@ export default function Pricing() {
                                 <ul className="space-y-4 mb-8">
                                     {plan.features.map((feature) => (
                                         <li key={feature} className="flex items-start gap-3">
-                                            <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${plan.popular ? "bg-[#B9FF3E]/20" : "bg-white/10"
+                                            <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${plan.popular ? "bg-[#4169FF]/20" : "bg-white/10"
                                                 }`}>
-                                                <Check className={`w-3 h-3 ${plan.popular ? "text-[#B9FF3E]" : "text-white/70"}`} />
+                                                <Check className={`w-3 h-3 ${plan.popular ? "text-[#00D9FF]" : "text-white/70"}`} />
                                             </div>
                                             <span className="text-gray-300 text-sm">{feature}</span>
                                         </li>
@@ -165,8 +165,8 @@ export default function Pricing() {
 
                                 <button
                                     className={`w-full py-4 rounded-full font-semibold transition-all duration-300 ${plan.popular
-                                            ? "bg-[#B9FF3E] text-black hover:scale-105"
-                                            : "bg-white/10 text-white hover:bg-white/20"
+                                        ? "bg-gradient-to-r from-[#4169FF] to-[#00D9FF] text-white hover:scale-105 hover:shadow-[0_0_30px_rgba(65,105,255,0.4)]"
+                                        : "bg-white/10 text-white hover:bg-white/20"
                                         }`}
                                 >
                                     Get Started
@@ -184,7 +184,7 @@ export default function Pricing() {
                     className="text-center text-gray-500 text-sm mt-12"
                 >
                     Need a custom solution?{" "}
-                    <a href="#contact" className="text-[#B9FF3E] hover:underline">
+                    <a href="#contact" className="text-[#00D9FF] hover:underline">
                         Contact us
                     </a>{" "}
                     for a tailored quote.
