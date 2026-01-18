@@ -1,15 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Link } from "lucide-react"; // Only importing Link icon for now, will replace with Next Link
 import NextLink from "next/link";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 
 const navItems = [
     { name: "Work", href: "#work" },
     { name: "Services", href: "#services" },
-    { name: "About", href: "#about" },
+    { name: "Pricing", href: "#pricing" },
     { name: "Contact", href: "#contact" },
 ];
 
@@ -39,7 +37,7 @@ export default function Navbar() {
                             <span className="absolute inset-0 rounded-full bg-white/10 scale-0 transition-transform duration-300 group-hover:scale-100"></span>
                         </NextLink>
                     ))}
-                    <button className="ml-2 px-5 py-2 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transition-all text-sm">
+                    <button className="ml-2 px-5 py-2 bg-[#B9FF3E] text-black font-semibold rounded-full hover:scale-105 transition-all text-sm">
                         Let's Talk
                     </button>
                 </div>
@@ -80,6 +78,12 @@ export default function Navbar() {
                             {item.name}
                         </NextLink>
                     ))}
+                    <button
+                        onClick={() => setIsOpen(false)}
+                        className="mt-4 px-8 py-4 bg-[#B9FF3E] text-black font-semibold rounded-full"
+                    >
+                        Let's Talk
+                    </button>
                 </motion.div>
             </div>
         </nav>
