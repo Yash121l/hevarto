@@ -44,7 +44,7 @@ export default function Footer() {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                         viewport={{ once: true }}
-                        className="text-[12vw] sm:text-[15vw] font-bold tracking-tighter leading-none text-transparent bg-clip-text bg-gradient-to-b from-[#4169FF] to-[#00D9FF] select-none"
+                        className="text-[12vw] sm:text-[15vw] font-bold tracking-tighter leading-none text-transparent bg-clip-text bg-gradient-to-b from-[#356DE8] to-[#00D9FF] select-none"
                     >
                         hevarto
                     </motion.h1>
@@ -68,9 +68,9 @@ export default function Footer() {
                                 <a
                                     key={link}
                                     href="#"
-                                    className="flex items-center gap-2 text-sm sm:text-base font-medium text-gray-700 hover:text-[#4169FF] transition-colors group"
+                                    className="flex items-center gap-2 text-sm sm:text-base font-medium text-gray-700 hover:text-[#356DE8] transition-colors group"
                                 >
-                                    <ChevronRight className="w-4 h-4 text-[#4169FF] transition-transform group-hover:translate-x-1" />
+                                    <ChevronRight className="w-4 h-4 text-[#356DE8] transition-transform group-hover:translate-x-1" />
                                     {link}
                                 </a>
                             ))}
@@ -82,7 +82,7 @@ export default function Footer() {
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 border-t border-gray-200 pt-8 mb-8 relative z-10">
                     <div>
                         <p className="text-sm text-gray-500 mb-2">Get in touch</p>
-                        <a href="mailto:hello@hevarto.com" className="text-xl font-semibold text-gray-900 hover:text-[#4169FF] transition-colors">
+                        <a href="mailto:hello@hevarto.com" className="text-xl font-semibold text-gray-900 hover:text-[#356DE8] transition-colors">
                             hello@hevarto.com
                         </a>
                     </div>
@@ -93,7 +93,7 @@ export default function Footer() {
                                 key={social.label}
                                 href={social.href}
                                 aria-label={social.label}
-                                className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#4169FF]/10 hover:text-[#4169FF] transition-colors"
+                                className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#356DE8]/10 hover:text-[#356DE8] transition-colors"
                             >
                                 <social.icon className="w-5 h-5" />
                             </a>
@@ -113,7 +113,7 @@ export default function Footer() {
                             <svg viewBox="0 0 40 40" className="w-full h-full">
                                 <defs>
                                     <linearGradient id="footerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stopColor="#4169FF" />
+                                        <stop offset="0%" stopColor="#356DE8" />
                                         <stop offset="100%" stopColor="#00D9FF" />
                                     </linearGradient>
                                 </defs>

@@ -63,7 +63,7 @@ export default function Pricing() {
     return (
         <section id="pricing" className="bg-[#0A1628] py-32 px-4 sm:px-6 relative overflow-hidden">
             {/* Background Glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#4169FF]/5 rounded-full blur-[200px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#356DE8]/5 rounded-full blur-[200px]" />
 
             <div className="max-w-7xl mx-auto relative z-10">
                 <motion.div
@@ -93,7 +93,7 @@ export default function Pricing() {
                             <motion.div
                                 animate={{ x: isYearly ? 32 : 0 }}
                                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                                className="w-6 h-6 rounded-full bg-gradient-to-r from-[#4169FF] to-[#00D9FF]"
+                                className="w-6 h-6 rounded-full bg-gradient-to-r from-[#356DE8] to-[#00D9FF]"
                             />
                         </button>
                         <span className={`text-sm font-medium transition-colors ${isYearly ? "text-white" : "text-gray-500"}`}>
@@ -113,14 +113,14 @@ export default function Pricing() {
                             transition={{ duration: 0.6, delay: index * 0.15 }}
                             viewport={{ once: true }}
                             className={`relative group rounded-3xl p-8 transition-all duration-500 ${plan.popular
-                                ? "bg-gradient-to-b from-[#4169FF]/20 to-transparent border-2 border-[#4169FF]/50 scale-105 md:scale-110"
+                                ? "bg-gradient-to-b from-[#356DE8]/20 to-transparent border-2 border-[#356DE8]/50 scale-105 md:scale-110"
                                 : "bg-white/[0.03] border border-white/10 hover:border-white/20 hover:bg-white/[0.05]"
                                 }`}
                         >
                             {/* Popular Badge */}
                             {plan.popular && (
                                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                                    <div className="flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-[#4169FF] to-[#00D9FF] text-white text-xs font-bold rounded-full">
+                                    <div className="flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-[#356DE8] to-[#00D9FF] text-white text-xs font-bold rounded-full">
                                         <Sparkles className="w-3.5 h-3.5" />
                                         MOST POPULAR
                                     </div>
@@ -154,7 +154,7 @@ export default function Pricing() {
                                 <ul className="space-y-4 mb-8">
                                     {plan.features.map((feature) => (
                                         <li key={feature} className="flex items-start gap-3">
-                                            <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${plan.popular ? "bg-[#4169FF]/20" : "bg-white/10"
+                                            <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${plan.popular ? "bg-[#356DE8]/20" : "bg-white/10"
                                                 }`}>
                                                 <Check className={`w-3 h-3 ${plan.popular ? "text-[#00D9FF]" : "text-white/70"}`} />
                                             </div>
@@ -165,7 +165,7 @@ export default function Pricing() {
 
                                 <button
                                     className={`w-full py-4 rounded-full font-semibold transition-all duration-300 ${plan.popular
-                                        ? "bg-gradient-to-r from-[#4169FF] to-[#00D9FF] text-white hover:scale-105 hover:shadow-[0_0_30px_rgba(65,105,255,0.4)]"
+                                        ? "bg-gradient-to-r from-[#356DE8] to-[#00D9FF] text-white hover:scale-105 hover:shadow-[0_0_30px_rgba(65,105,255,0.4)]"
                                         : "bg-white/10 text-white hover:bg-white/20"
                                         }`}
                                 >

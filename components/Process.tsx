@@ -57,12 +57,12 @@ export default function Process() {
                             className="group relative p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[#00D9FF]/30 hover:bg-white/[0.04] transition-all duration-500"
                         >
                             {/* Step Number */}
-                            <div className="absolute top-4 right-4 text-6xl font-bold text-white/5 group-hover:text-[#4169FF]/10 transition-colors">
+                            <div className="absolute top-4 right-4 text-6xl font-bold text-white/5 group-hover:text-[#356DE8]/10 transition-colors">
                                 {String(index + 1).padStart(2, "0")}
                             </div>
 
                             <div className="relative z-10">
-                                <div className="w-14 h-14 rounded-xl bg-[#4169FF]/10 flex items-center justify-center mb-6 group-hover:bg-[#4169FF]/20 transition-colors">
+                                <div className="w-14 h-14 rounded-xl bg-[#356DE8]/10 flex items-center justify-center mb-6 group-hover:bg-[#356DE8]/20 transition-colors">
                                     <step.icon className="w-7 h-7 text-[#00D9FF]" />
                                 </div>
                                 <h3 className="text-xl sm:text-2xl text-white font-semibold mb-3">

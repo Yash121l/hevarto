@@ -8,19 +8,19 @@ const benefits = [
         icon: Zap,
         title: "Custom Solutions",
         description: "Every project is unique. We craft tailor-made solutions that perfectly fit your business needs and goals.",
-        gradient: "from-[#4169FF] to-[#2D4DB8]",
+        gradient: "from-[#356DE8] to-[#2557D6]",
     },
     {
         icon: Clock,
         title: "Fast Turnaround",
         description: "We understand time is money. Our agile process ensures rapid delivery without compromising quality.",
-        gradient: "from-[#00D9FF] to-[#4169FF]",
+        gradient: "from-[#00D9FF] to-[#356DE8]",
     },
     {
         icon: Users,
         title: "Expert Team",
         description: "Our seasoned professionals bring years of experience in design, development, and digital strategy.",
-        gradient: "from-[#6B5FFF] to-[#4169FF]",
+        gradient: "from-[#6B5FFF] to-[#356DE8]",
     },
     {
         icon: HeartHandshake,
@@ -34,7 +34,7 @@ export default function Benefits() {
     return (
         <section className="bg-[#0A1628] py-32 px-4 sm:px-6 relative overflow-hidden">
             {/* Floating gradient orbs */}
-            <div className="absolute top-20 left-10 w-72 h-72 bg-[#4169FF]/10 rounded-full blur-[120px] animate-pulse" />
+            <div className="absolute top-20 left-10 w-72 h-72 bg-[#356DE8]/10 rounded-full blur-[120px] animate-pulse" />
             <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#00D9FF]/10 rounded-full blur-[150px] animate-pulse" style={{ animationDelay: "1s" }} />
 
             <div className="max-w-7xl mx-auto relative z-10">
@@ -64,7 +64,7 @@ export default function Benefits() {
                             className="group relative"
                         >
                             {/* Card */}
-                            <div className="relative h-full p-8 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-sm overflow-hidden transition-all duration-500 hover:border-[#4169FF]/30 hover:bg-white/[0.06]">
+                            <div className="relative h-full p-8 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-sm overflow-hidden transition-all duration-500 hover:border-[#356DE8]/30 hover:bg-white/[0.06]">
                                 {/* Gradient glow on hover */}
                                 <div className={`absolute inset-0 bg-gradient-to-br ${benefit.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
 
@@ -83,7 +83,7 @@ export default function Benefits() {
                                 </p>
 
                                 {/* Decorative corner */}
-                                <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-gradient-to-br from-[#4169FF]/10 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-gradient-to-br from-[#356DE8]/10 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                             </div>
                         </motion.div>
                     ))}

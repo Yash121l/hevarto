@@ -51,10 +51,10 @@ export default function Testimonials() {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: index * 0.15 }}
                             viewport={{ once: true }}
-                            className="group p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[#4169FF]/30 hover:bg-white/[0.04] transition-all relative"
+                            className="group p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[#356DE8]/30 hover:bg-white/[0.04] transition-all relative"
                         >
                             {/* Quote icon */}
-                            <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-[#4169FF]/10 flex items-center justify-center group-hover:bg-[#4169FF]/20 transition-colors">
+                            <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-[#356DE8]/10 flex items-center justify-center group-hover:bg-[#356DE8]/20 transition-colors">
                                 <Quote className="w-4 h-4 text-[#00D9FF]" />
                             </div>
 
@@ -68,7 +68,7 @@ export default function Testimonials() {
                                         alt={testimonial.name}
                                         className="w-12 h-12 rounded-full object-cover"
                                     />
-                                    <div className="absolute inset-0 rounded-full border-2 border-[#4169FF]/30 group-hover:border-[#00D9FF]/50 transition-colors" />
+                                    <div className="absolute inset-0 rounded-full border-2 border-[#356DE8]/30 group-hover:border-[#00D9FF]/50 transition-colors" />
                                 </div>
                                 <div>
                                     <div className="text-white font-medium group-hover:text-[#00D9FF] transition-colors">{testimonial.name}</div>

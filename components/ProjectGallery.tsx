@@ -68,7 +68,7 @@ export default function ProjectGallery() {
                             </div>
 
                             {/* Border glow on hover */}
-                            <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-[#4169FF]/30 transition-colors duration-500 z-30 pointer-events-none" />
+                            <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-[#356DE8]/30 transition-colors duration-500 z-30 pointer-events-none" />
                         </motion.div>
                     ))}
                 </div>
