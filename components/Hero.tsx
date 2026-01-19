@@ -111,14 +111,14 @@ export default function Hero() {
                     transition={{ duration: 0.8, delay: 0.6 }}
                     className="flex flex-col sm:flex-row items-center gap-4"
                 >
-                    <button className="group relative px-8 py-4 bg-gradient-to-r from-[#356DE8] to-[#00D9FF] text-white rounded-full font-semibold transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(53,109,232,0.4)] flex items-center gap-2 overflow-hidden">
-                        <span className="relative z-10">Start Your Project</span>
-                        <MoveRight className="w-4 h-4 transition-transform group-hover:translate-x-1 relative z-10" />
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#00D9FF] to-[#356DE8] opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <button className="group relative px-8 py-4 bg-white text-[#0A1628] rounded-full font-semibold transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] flex items-center gap-2 overflow-hidden">
+                        <span className="relative z-10 group-hover:text-white transition-colors">Start Your Project</span>
+                        <MoveRight className="w-4 h-4 transition-all group-hover:translate-x-1 group-hover:text-white relative z-10" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#356DE8] to-[#00D9FF] opacity-0 group-hover:opacity-100 transition-opacity" />
                     </button>
 
-                    <button className="group px-8 py-4 bg-white/5 border border-white/10 backdrop-blur-md rounded-full text-white font-medium transition-all hover:bg-white/10 hover:border-[#356DE8]/30 flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#356DE8] to-[#00D9FF] text-white flex items-center justify-center">
+                    <button className="group px-8 py-4 bg-white/5 border border-white/10 backdrop-blur-md rounded-full text-white font-medium transition-all hover:bg-white hover:text-[#0A1628] flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-white/10 group-hover:bg-[#356DE8] text-white flex items-center justify-center transition-colors">
                             <Play className="w-3 h-3 fill-current ml-0.5" />
                         </div>
                         Our Showreel

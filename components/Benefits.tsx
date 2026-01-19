@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useRef, useState, MouseEvent } from "react";
 import { Zap, Users, Clock, HeartHandshake } from "lucide-react";
 
 const benefits = [
@@ -8,27 +9,95 @@ const benefits = [
         icon: Zap,
         title: "Custom Solutions",
         description: "Every project is unique. We craft tailor-made solutions that perfectly fit your business needs and goals.",
-        gradient: "from-[#356DE8] to-[#2557D6]",
     },
     {
         icon: Clock,
         title: "Fast Turnaround",
         description: "We understand time is money. Our agile process ensures rapid delivery without compromising quality.",
-        gradient: "from-[#00D9FF] to-[#356DE8]",
     },
     {
         icon: Users,
         title: "Expert Team",
         description: "Our seasoned professionals bring years of experience in design, development, and digital strategy.",
-        gradient: "from-[#6B5FFF] to-[#356DE8]",
     },
     {
         icon: HeartHandshake,
         title: "Ongoing Support",
         description: "We don't just build and leave. Our partnership continues with dedicated support and maintenance.",
-        gradient: "from-[#5B7FFF] to-[#00D9FF]",
     },
 ];
+
+function GlowingBenefitCard({ benefit, index }: { benefit: typeof benefits[0]; index: number }) {
+    const cardRef = useRef<HTMLDivElement>(null);
+    const [isHovered, setIsHovered] = useState(false);
+
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    const springConfig = { damping: 25, stiffness: 150 };
+    const x = useSpring(mouseX, springConfig);
+    const y = useSpring(mouseY, springConfig);
+
+    const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+        if (!cardRef.current) return;
+        const rect = cardRef.current.getBoundingClientRect();
+        mouseX.set(e.clientX - rect.left);
+        mouseY.set(e.clientY - rect.top);
+    };
+
+    return (
+        <motion.div
+            ref={cardRef}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+            viewport={{ once: true }}
+            onMouseMove={handleMouseMove}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className="group relative"
+        >
+            {/* Card */}
+            <div className="relative h-full p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm overflow-hidden transition-all duration-500 hover:border-white/20">
+                {/* Glow Effect */}
+                <motion.div
+                    className="pointer-events-none absolute inset-0 rounded-3xl"
+                    style={{
+                        background: useTransform(
+                            [x, y],
+                            ([latestX, latestY]) =>
+                                `radial-gradient(400px circle at ${latestX}px ${latestY}px, rgba(53, 109, 232, 0.15), transparent 40%)`
+                        ),
+                        opacity: isHovered ? 1 : 0,
+                    }}
+                />
+
+                {/* Border Glow */}
+                <motion.div
+                    className="absolute inset-0 rounded-3xl pointer-events-none"
+                    style={{
+                        boxShadow: isHovered
+                            ? "inset 0 0 0 1px rgba(53, 109, 232, 0.5)"
+                            : "inset 0 0 0 0px transparent",
+                    }}
+                    transition={{ duration: 0.3 }}
+                />
+
+                {/* Icon container */}
+                <div className={`relative w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 ${isHovered ? "bg-white" : "bg-white/5"}`}>
+                    <benefit.icon className={`w-6 h-6 transition-colors duration-300 ${isHovered ? "text-[#0A1628]" : "text-white/70"}`} />
+                </div>
+
+                <h3 className={`text-xl font-semibold mb-3 transition-colors duration-300 ${isHovered ? "text-white" : "text-white/90"}`}>
+                    {benefit.title}
+                </h3>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                    {benefit.description}
+                </p>
+            </div>
+        </motion.div>
+    );
+}
 
 export default function Benefits() {
     return (
@@ -55,37 +124,7 @@ export default function Benefits() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {benefits.map((benefit, index) => (
-                        <motion.div
-                            key={benefit.title}
-                            initial={{ opacity: 0, y: 40 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: index * 0.1 }}
-                            viewport={{ once: true }}
-                            className="group relative"
-                        >
-                            {/* Card */}
-                            <div className="relative h-full p-8 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-sm overflow-hidden transition-all duration-500 hover:border-[#356DE8]/30 hover:bg-white/[0.06]">
-                                {/* Gradient glow on hover */}
-                                <div className={`absolute inset-0 bg-gradient-to-br ${benefit.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
-
-                                {/* Icon container */}
-                                <div className={`relative w-14 h-14 rounded-2xl bg-gradient-to-br ${benefit.gradient} p-[1px] mb-6`}>
-                                    <div className="w-full h-full rounded-2xl bg-[#0A1628] flex items-center justify-center">
-                                        <benefit.icon className="w-6 h-6 text-white" />
-                                    </div>
-                                </div>
-
-                                <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-[#00D9FF] transition-colors">
-                                    {benefit.title}
-                                </h3>
-                                <p className="text-gray-400 text-sm leading-relaxed">
-                                    {benefit.description}
-                                </p>
-
-                                {/* Decorative corner */}
-                                <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-gradient-to-br from-[#356DE8]/10 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                            </div>
-                        </motion.div>
+                        <GlowingBenefitCard key={benefit.title} benefit={benefit} index={index} />
                     ))}
                 </div>
             </div>

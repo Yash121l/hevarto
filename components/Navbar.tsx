@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import NextLink from "next/link";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { ChevronDown } from "lucide-react";
 
 const navItems = [
@@ -22,6 +22,52 @@ const navItems = [
     { name: "Pricing", href: "/#pricing" },
     { name: "Contact", href: "/contact" },
 ];
+
+// Letter swap animation on hover
+function AnimatedNavLink({ name, isActive }: { name: string; isActive?: boolean }) {
+    const [isHovered, setIsHovered] = useState(false);
+
+    return (
+        <span
+            className="relative inline-flex overflow-hidden h-5"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
+            {name.split("").map((letter, index) => (
+                <span
+                    key={index}
+                    className="relative inline-block"
+                    style={{ width: letter === " " ? "0.3em" : "auto" }}
+                >
+                    <motion.span
+                        initial={{ y: 0 }}
+                        animate={{ y: isHovered ? "-100%" : 0 }}
+                        transition={{
+                            duration: 0.25,
+                            delay: index * 0.02,
+                            ease: [0.22, 1, 0.36, 1],
+                        }}
+                        className="inline-block text-white/80"
+                    >
+                        {letter === " " ? "\u00A0" : letter}
+                    </motion.span>
+                    <motion.span
+                        initial={{ y: "100%" }}
+                        animate={{ y: isHovered ? 0 : "100%" }}
+                        transition={{
+                            duration: 0.25,
+                            delay: index * 0.02,
+                            ease: [0.22, 1, 0.36, 1],
+                        }}
+                        className="absolute inset-0 inline-block text-white font-medium"
+                    >
+                        {letter === " " ? "\u00A0" : letter}
+                    </motion.span>
+                </span>
+            ))}
+        </span>
+    );
+}
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -59,7 +105,7 @@ export default function Navbar() {
                             </text>
                         </svg>
                     </div>
-                    <span className="text-xl sm:text-2xl font-bold tracking-tighter text-white">
+                    <span className="text-xl sm:text-2xl font-bold tracking-tighter text-white group-hover:text-white transition-colors">
                         HEVARTO
                     </span>
                     <span className="absolute -bottom-1 left-12 w-0 h-[2px] bg-gradient-to-r from-[#356DE8] to-[#00D9FF] transition-all duration-300 group-hover:w-[calc(100%-48px)]"></span>
@@ -76,37 +122,47 @@ export default function Navbar() {
                         >
                             <NextLink
                                 href={item.href}
-                                className="relative px-5 py-2 text-sm font-medium text-white/80 transition-colors hover:text-white group flex items-center gap-1"
+                                className="relative px-5 py-2 text-sm font-medium transition-colors group flex items-center gap-1"
                             >
-                                {item.name}
-                                {item.dropdown && <ChevronDown className="w-3 h-3" />}
-                                <span className="absolute inset-0 rounded-full bg-white/10 scale-0 transition-transform duration-300 group-hover:scale-100"></span>
+                                <AnimatedNavLink name={item.name} />
+                                {item.dropdown && <ChevronDown className="w-3 h-3 text-white/60" />}
+                                <span className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/10 transition-colors duration-300"></span>
                             </NextLink>
 
                             {/* Dropdown Menu */}
-                            {item.dropdown && openDropdown === item.name && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: 10 }}
-                                    className="absolute top-full left-0 mt-2 w-56 py-2 bg-[#0A1628]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl"
-                                >
-                                    {item.dropdown.map((subItem) => (
-                                        <NextLink
-                                            key={subItem.name}
-                                            href={subItem.href}
-                                            className="block px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/5 transition-colors"
-                                        >
-                                            {subItem.name}
-                                        </NextLink>
-                                    ))}
-                                </motion.div>
-                            )}
+                            <AnimatePresence>
+                                {item.dropdown && openDropdown === item.name && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 10 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="absolute top-full left-0 mt-2 w-56 py-2 bg-[#0A1628]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden"
+                                    >
+                                        {item.dropdown.map((subItem, index) => (
+                                            <NextLink
+                                                key={subItem.name}
+                                                href={subItem.href}
+                                                className="group block px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/5 transition-all"
+                                            >
+                                                <motion.span
+                                                    initial={{ x: 0 }}
+                                                    whileHover={{ x: 4 }}
+                                                    className="flex items-center gap-2"
+                                                >
+                                                    <span className="w-1 h-1 rounded-full bg-[#356DE8] opacity-0 group-hover:opacity-100 transition-opacity" />
+                                                    {subItem.name}
+                                                </motion.span>
+                                            </NextLink>
+                                        ))}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </div>
                     ))}
                     <NextLink
                         href="/contact"
-                        className="ml-2 px-5 py-2 bg-gradient-to-r from-[#356DE8] to-[#00D9FF] text-white font-semibold rounded-full hover:scale-105 hover:shadow-[0_0_30px_rgba(53,109,232,0.4)] transition-all text-sm"
+                        className="ml-2 px-5 py-2 bg-white text-[#0A1628] font-semibold rounded-full hover:bg-[#356DE8] hover:text-white transition-all text-sm"
                     >
                         Let&apos;s Talk
                     </NextLink>
@@ -143,7 +199,7 @@ export default function Navbar() {
                             <NextLink
                                 href={item.href}
                                 onClick={() => setIsOpen(false)}
-                                className="text-3xl font-light text-white/90 hover:text-[#00D9FF] transition-colors"
+                                className="text-3xl font-light text-white/90 hover:text-white transition-colors"
                             >
                                 {item.name}
                             </NextLink>
@@ -154,7 +210,7 @@ export default function Navbar() {
                                             key={subItem.name}
                                             href={subItem.href}
                                             onClick={() => setIsOpen(false)}
-                                            className="text-lg text-white/50 hover:text-[#00D9FF] transition-colors"
+                                            className="text-lg text-white/50 hover:text-white transition-colors"
                                         >
                                             {subItem.name}
                                         </NextLink>
@@ -166,7 +222,7 @@ export default function Navbar() {
                     <NextLink
                         href="/contact"
                         onClick={() => setIsOpen(false)}
-                        className="mt-4 px-8 py-4 bg-gradient-to-r from-[#356DE8] to-[#00D9FF] text-white font-semibold rounded-full hover:shadow-[0_0_30px_rgba(53,109,232,0.4)] transition-all"
+                        className="mt-4 px-8 py-4 bg-white text-[#0A1628] font-semibold rounded-full hover:bg-[#356DE8] hover:text-white transition-all"
                     >
                         Let&apos;s Talk
                     </NextLink>

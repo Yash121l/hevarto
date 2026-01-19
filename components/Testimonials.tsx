@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useRef, useState, MouseEvent } from "react";
 import { Quote } from "lucide-react";
 
 const testimonials = [
@@ -24,6 +25,85 @@ const testimonials = [
     },
 ];
 
+function GlowingTestimonialCard({ testimonial, index }: { testimonial: typeof testimonials[0]; index: number }) {
+    const cardRef = useRef<HTMLDivElement>(null);
+    const [isHovered, setIsHovered] = useState(false);
+
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    const springConfig = { damping: 25, stiffness: 150 };
+    const x = useSpring(mouseX, springConfig);
+    const y = useSpring(mouseY, springConfig);
+
+    const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+        if (!cardRef.current) return;
+        const rect = cardRef.current.getBoundingClientRect();
+        mouseX.set(e.clientX - rect.left);
+        mouseY.set(e.clientY - rect.top);
+    };
+
+    return (
+        <motion.div
+            ref={cardRef}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.15 }}
+            viewport={{ once: true }}
+            onMouseMove={handleMouseMove}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className="group p-8 rounded-2xl bg-white/[0.02] border border-white/5 transition-all relative overflow-hidden"
+        >
+            {/* Glow Effect */}
+            <motion.div
+                className="pointer-events-none absolute inset-0 rounded-2xl"
+                style={{
+                    background: useTransform(
+                        [x, y],
+                        ([latestX, latestY]) =>
+                            `radial-gradient(300px circle at ${latestX}px ${latestY}px, rgba(53, 109, 232, 0.15), transparent 40%)`
+                    ),
+                    opacity: isHovered ? 1 : 0,
+                }}
+            />
+
+            {/* Border Glow */}
+            <motion.div
+                className="absolute inset-0 rounded-2xl pointer-events-none"
+                style={{
+                    boxShadow: isHovered
+                        ? "inset 0 0 0 1px rgba(53, 109, 232, 0.4)"
+                        : "inset 0 0 0 0px transparent",
+                }}
+            />
+
+            {/* Quote icon */}
+            <div className={`absolute top-6 right-6 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${isHovered ? "bg-white" : "bg-white/5"}`}>
+                <Quote className={`w-4 h-4 transition-colors duration-300 ${isHovered ? "text-[#0A1628]" : "text-[#00D9FF]"}`} />
+            </div>
+
+            <p className="text-gray-300 text-lg leading-relaxed mb-8 italic relative z-10">
+                &quot;{testimonial.quote}&quot;
+            </p>
+            <div className="flex items-center gap-4 relative z-10">
+                <div className="relative">
+                    <img
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        className="w-12 h-12 rounded-full object-cover"
+                    />
+                    <div className={`absolute inset-0 rounded-full border-2 transition-colors duration-300 ${isHovered ? "border-white/50" : "border-[#356DE8]/30"}`} />
+                </div>
+                <div>
+                    <div className={`font-medium transition-colors duration-300 ${isHovered ? "text-white" : "text-white/90"}`}>{testimonial.name}</div>
+                    <div className="text-gray-500 text-sm">{testimonial.title}</div>
+                </div>
+            </div>
+        </motion.div>
+    );
+}
+
 export default function Testimonials() {
     return (
         <section className="bg-[#0A1628] py-32 px-4 sm:px-6 border-t border-white/5 relative overflow-hidden">
@@ -45,37 +125,7 @@ export default function Testimonials() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {testimonials.map((testimonial, index) => (
-                        <motion.div
-                            key={testimonial.name}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: index * 0.15 }}
-                            viewport={{ once: true }}
-                            className="group p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[#356DE8]/30 hover:bg-white/[0.04] transition-all relative"
-                        >
-                            {/* Quote icon */}
-                            <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-[#356DE8]/10 flex items-center justify-center group-hover:bg-[#356DE8]/20 transition-colors">
-                                <Quote className="w-4 h-4 text-[#00D9FF]" />
-                            </div>
-
-                            <p className="text-gray-300 text-lg leading-relaxed mb-8 italic">
-                                "{testimonial.quote}"
-                            </p>
-                            <div className="flex items-center gap-4">
-                                <div className="relative">
-                                    <img
-                                        src={testimonial.image}
-                                        alt={testimonial.name}
-                                        className="w-12 h-12 rounded-full object-cover"
-                                    />
-                                    <div className="absolute inset-0 rounded-full border-2 border-[#356DE8]/30 group-hover:border-[#00D9FF]/50 transition-colors" />
-                                </div>
-                                <div>
-                                    <div className="text-white font-medium group-hover:text-[#00D9FF] transition-colors">{testimonial.name}</div>
-                                    <div className="text-gray-500 text-sm">{testimonial.title}</div>
-                                </div>
-                            </div>
-                        </motion.div>
+                        <GlowingTestimonialCard key={testimonial.name} testimonial={testimonial} index={index} />
                     ))}
                 </div>
             </div>

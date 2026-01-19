@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { motion, useMotionValue, useSpring, useTransform, useInView } from "framer-motion";
+import { useRef, useEffect, useState, MouseEvent } from "react";
 
 const stats = [
     { value: 5, suffix: "+", label: "Years Experience" },
@@ -45,6 +45,69 @@ function AnimatedNumber({ value, suffix }: { value: number; suffix: string }) {
     );
 }
 
+function GlowingStatCard({ stat, index }: { stat: typeof stats[0]; index: number }) {
+    const cardRef = useRef<HTMLDivElement>(null);
+    const [isHovered, setIsHovered] = useState(false);
+
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    const springConfig = { damping: 25, stiffness: 150 };
+    const x = useSpring(mouseX, springConfig);
+    const y = useSpring(mouseY, springConfig);
+
+    const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+        if (!cardRef.current) return;
+        const rect = cardRef.current.getBoundingClientRect();
+        mouseX.set(e.clientX - rect.left);
+        mouseY.set(e.clientY - rect.top);
+    };
+
+    return (
+        <motion.div
+            ref={cardRef}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+            viewport={{ once: true }}
+            onMouseMove={handleMouseMove}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className="group relative p-6 rounded-2xl bg-white/[0.02] border border-white/5 transition-all duration-500 text-center md:text-left overflow-hidden"
+        >
+            {/* Glow Effect */}
+            <motion.div
+                className="pointer-events-none absolute inset-0 rounded-2xl"
+                style={{
+                    background: useTransform(
+                        [x, y],
+                        ([latestX, latestY]) =>
+                            `radial-gradient(300px circle at ${latestX}px ${latestY}px, rgba(53, 109, 232, 0.2), transparent 40%)`
+                    ),
+                    opacity: isHovered ? 1 : 0,
+                }}
+            />
+
+            {/* Border Glow */}
+            <motion.div
+                className="absolute inset-0 rounded-2xl pointer-events-none"
+                style={{
+                    boxShadow: isHovered
+                        ? "inset 0 0 0 1px rgba(255, 255, 255, 0.2)"
+                        : "inset 0 0 0 0px transparent",
+                }}
+            />
+
+            <div className="relative z-10">
+                <AnimatedNumber value={stat.value} suffix={stat.suffix} />
+                <div className={`text-sm sm:text-base uppercase tracking-widest transition-colors duration-300 ${isHovered ? "text-white/80" : "text-gray-400"}`}>
+                    {stat.label}
+                </div>
+            </div>
+        </motion.div>
+    );
+}
+
 export default function Stats() {
     return (
         <section className="bg-[#0A1628] py-32 px-4 sm:px-6 border-t border-white/5 relative overflow-hidden">
@@ -70,24 +133,7 @@ export default function Stats() {
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
                     {stats.map((stat, index) => (
-                        <motion.div
-                            key={stat.label}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: index * 0.1 }}
-                            viewport={{ once: true }}
-                            className="group relative p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[#356DE8]/30 hover:bg-white/[0.04] transition-all duration-500 text-center md:text-left"
-                        >
-                            {/* Glassmorphism shine effect */}
-                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#356DE8]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                            <div className="relative z-10">
-                                <AnimatedNumber value={stat.value} suffix={stat.suffix} />
-                                <div className="text-sm sm:text-base text-gray-400 uppercase tracking-widest">
-                                    {stat.label}
-                                </div>
-                            </div>
-                        </motion.div>
+                        <GlowingStatCard key={stat.label} stat={stat} index={index} />
                     ))}
                 </div>
             </div>

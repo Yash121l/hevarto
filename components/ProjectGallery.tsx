@@ -1,75 +1,139 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useRef, useState, MouseEvent } from "react";
+import { ArrowUpRight } from "lucide-react";
 
-const PROJECTS = [
+const projects = [
     {
-        id: 1,
         title: "Apex Finance",
         category: "Fintech",
         image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
     },
     {
-        id: 2,
         title: "Nebula Stream",
         category: "SaaS Platform",
         image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop",
     },
     {
-        id: 3,
         title: "EcoVibe",
         category: "E-Commerce",
         image: "https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?q=80&w=2070&auto=format&fit=crop",
     },
     {
-        id: 4,
         title: "Quantum Labs",
         category: "Research",
         image: "https://images.unsplash.com/photo-1535378437327-b71494663f80?q=80&w=2070&auto=format&fit=crop",
     },
 ];
 
+function GlowingProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
+    const cardRef = useRef<HTMLDivElement>(null);
+    const [isHovered, setIsHovered] = useState(false);
+
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    const springConfig = { damping: 25, stiffness: 150 };
+    const x = useSpring(mouseX, springConfig);
+    const y = useSpring(mouseY, springConfig);
+
+    const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+        if (!cardRef.current) return;
+        const rect = cardRef.current.getBoundingClientRect();
+        mouseX.set(e.clientX - rect.left);
+        mouseY.set(e.clientY - rect.top);
+    };
+
+    return (
+        <motion.div
+            ref={cardRef}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+            viewport={{ once: true }}
+            onMouseMove={handleMouseMove}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className="group relative aspect-[4/5] rounded-2xl overflow-hidden cursor-pointer"
+        >
+            {/* Image */}
+            <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628] via-[#0A1628]/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+
+            {/* Glow Effect */}
+            <motion.div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                    background: useTransform(
+                        [x, y],
+                        ([latestX, latestY]) =>
+                            `radial-gradient(400px circle at ${latestX}px ${latestY}px, rgba(53, 109, 232, 0.3), transparent 40%)`
+                    ),
+                    opacity: isHovered ? 1 : 0,
+                }}
+            />
+
+            {/* Content */}
+            <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
+                <span className={`text-xs uppercase tracking-widest mb-2 block transition-colors duration-300 ${isHovered ? "text-white" : "text-[#00D9FF]"}`}>
+                    {project.category}
+                </span>
+                <h3 className="text-2xl sm:text-3xl text-white font-medium">
+                    {project.title}
+                </h3>
+            </div>
+
+            {/* Arrow */}
+            <div className={`absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 z-20 ${isHovered ? "bg-white" : "bg-white/10"}`}>
+                <ArrowUpRight className={`w-5 h-5 transition-all duration-300 ${isHovered ? "text-[#0A1628] rotate-45" : "text-white"}`} />
+            </div>
+
+            {/* Border glow on hover */}
+            <motion.div
+                className="absolute inset-0 rounded-2xl pointer-events-none z-10"
+                style={{
+                    boxShadow: isHovered
+                        ? "inset 0 0 0 2px rgba(53, 109, 232, 0.5)"
+                        : "inset 0 0 0 0px transparent",
+                }}
+            />
+        </motion.div>
+    );
+}
+
 export default function ProjectGallery() {
     return (
-        <section id="work" className="bg-[#0A1628] py-32 px-4 sm:px-6">
+        <section className="bg-[#0A1628] py-32 px-4 sm:px-6 relative overflow-hidden">
             <div className="max-w-7xl mx-auto">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-20 animate-fade-in-up">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    viewport={{ once: true }}
+                    className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6"
+                >
                     <h2 className="text-4xl sm:text-6xl text-white font-serif">
-                        Selected <span className="italic text-white/50">Work</span>
+                        Selected <span className="italic text-white/50">Works</span>
                     </h2>
-                    <p className="text-gray-400 mt-4 md:mt-0 max-w-sm text-lg">
-                        A showcase of our most ambitious projects, pushing the boundaries of digital design.
-                    </p>
-                </div>
+                    <a
+                        href="/projects"
+                        className="group px-6 py-3 bg-white/5 border border-white/10 backdrop-blur-md rounded-full text-white font-medium transition-all duration-300 hover:bg-white hover:text-[#0A1628] flex items-center gap-2"
+                    >
+                        View All Projects
+                        <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </a>
+                </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-                    {PROJECTS.map((project, index) => (
-                        <motion.div
-                            key={project.id}
-                            initial={{ opacity: 0, y: 50 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: index * 0.1 }}
-                            viewport={{ once: true }}
-                            className={`group relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer ${index % 2 === 1 ? "md:translate-y-24" : ""
-                                }`}
-                        >
-                            {/* Overlay with gradient */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/80 via-transparent to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
-                            <img
-                                src={project.image}
-                                alt={project.title}
-                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                            />
-                            <div className="absolute bottom-0 left-0 p-8 z-20 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                <p className="text-sm text-[#00D9FF] uppercase tracking-widest mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                                    {project.category}
-                                </p>
-                                <h3 className="text-3xl text-white font-medium group-hover:text-gradient-blue transition-colors">{project.title}</h3>
-                            </div>
-
-                            {/* Border glow on hover */}
-                            <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-[#356DE8]/30 transition-colors duration-500 z-30 pointer-events-none" />
-                        </motion.div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {projects.map((project, index) => (
+                        <GlowingProjectCard key={project.title} project={project} index={index} />
                     ))}
                 </div>
             </div>

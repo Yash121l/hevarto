@@ -1,45 +1,143 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useState, useRef, MouseEvent } from "react";
 import { ArrowUpRight, Globe, Palette, Megaphone, Smartphone, Lightbulb } from "lucide-react";
+import NextLink from "next/link";
 
 const services = [
     {
-        id: "01",
+        id: "web-development",
         title: "Web Development",
         description: "Custom websites and web applications built with cutting-edge technologies for performance and scalability.",
         icon: Globe,
     },
     {
-        id: "02",
+        id: "ui-ux-design",
         title: "UI/UX Design",
         description: "User-centered design that creates intuitive, engaging digital experiences that convert.",
         icon: Palette,
     },
     {
-        id: "03",
+        id: "brand-strategy",
         title: "Brand Strategy",
         description: "Strategic brand development that positions your business for growth and recognition.",
         icon: Lightbulb,
     },
     {
-        id: "04",
+        id: "digital-marketing",
         title: "Digital Marketing",
         description: "Data-driven marketing strategies that drive traffic, engagement, and conversions.",
         icon: Megaphone,
     },
     {
-        id: "05",
+        id: "mobile-apps",
         title: "Mobile Apps",
         description: "Native and cross-platform mobile applications that deliver seamless user experiences.",
         icon: Smartphone,
     },
 ];
 
-export default function Services() {
-    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+// Glowing card with mouse tracking
+function GlowingServiceCard({ service, index }: { service: typeof services[0]; index: number }) {
+    const cardRef = useRef<HTMLDivElement>(null);
+    const [isHovered, setIsHovered] = useState(false);
 
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    const springConfig = { damping: 25, stiffness: 150 };
+    const x = useSpring(mouseX, springConfig);
+    const y = useSpring(mouseY, springConfig);
+
+    const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+        if (!cardRef.current) return;
+        const rect = cardRef.current.getBoundingClientRect();
+        mouseX.set(e.clientX - rect.left);
+        mouseY.set(e.clientY - rect.top);
+    };
+
+    return (
+        <motion.div
+            ref={cardRef}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            viewport={{ once: true }}
+            onMouseMove={handleMouseMove}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className="group relative"
+        >
+            <NextLink href={`/services/${service.id}`}>
+                <div className="relative border-b border-white/10 py-8 md:py-10 cursor-pointer overflow-hidden">
+                    {/* Glow Effect */}
+                    <motion.div
+                        className="pointer-events-none absolute inset-0"
+                        style={{
+                            background: useTransform(
+                                [x, y],
+                                ([latestX, latestY]) =>
+                                    `radial-gradient(600px circle at ${latestX}px ${latestY}px, rgba(53, 109, 232, 0.15), transparent 40%)`
+                            ),
+                            opacity: isHovered ? 1 : 0,
+                        }}
+                        transition={{ duration: 0.3 }}
+                    />
+
+                    {/* Border Glow */}
+                    <motion.div
+                        className="absolute inset-x-0 bottom-0 h-px"
+                        style={{
+                            background: isHovered
+                                ? "linear-gradient(90deg, transparent, #356DE8, #00D9FF, #356DE8, transparent)"
+                                : "transparent",
+                        }}
+                    />
+
+                    <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 px-4">
+                        {/* Service Number */}
+                        <span className={`font-mono text-sm w-8 transition-colors duration-300 ${isHovered ? "text-white" : "text-[#00D9FF]"}`}>
+                            {String(index + 1).padStart(2, "0")}
+                        </span>
+
+                        {/* Icon */}
+                        <div className={`hidden md:flex w-12 h-12 rounded-xl items-center justify-center transition-all duration-300 ${isHovered ? "bg-white" : "bg-white/5"}`}>
+                            <service.icon className={`w-5 h-5 transition-colors duration-300 ${isHovered ? "text-[#0A1628]" : "text-white/50"}`} />
+                        </div>
+
+                        {/* Title */}
+                        <h3 className={`text-2xl sm:text-3xl md:text-4xl font-medium flex-1 transition-colors duration-300 ${isHovered ? "text-white" : "text-white/80"}`}>
+                            {service.title}
+                        </h3>
+
+                        {/* Description - visible on hover */}
+                        <motion.div
+                            initial={{ width: 0, opacity: 0 }}
+                            animate={{
+                                width: isHovered ? "auto" : 0,
+                                opacity: isHovered ? 1 : 0,
+                            }}
+                            transition={{ duration: 0.3 }}
+                            className="hidden lg:block overflow-hidden"
+                        >
+                            <p className="text-gray-400 max-w-xs text-sm whitespace-nowrap pr-8">
+                                {service.description}
+                            </p>
+                        </motion.div>
+
+                        {/* Arrow */}
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${isHovered ? "bg-white" : "bg-white/5"}`}>
+                            <ArrowUpRight className={`w-5 h-5 transition-all duration-300 ${isHovered ? "text-[#0A1628] rotate-45" : "text-white/50"}`} />
+                        </div>
+                    </div>
+                </div>
+            </NextLink>
+        </motion.div>
+    );
+}
+
+export default function Services() {
     return (
         <section id="services" className="bg-[#0A1628] py-32 px-4 sm:px-6 relative overflow-hidden">
             {/* Background elements */}
@@ -63,61 +161,7 @@ export default function Services() {
 
                 <div className="border-t border-white/10">
                     {services.map((service, index) => (
-                        <motion.div
-                            key={service.id}
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            viewport={{ once: true }}
-                            onMouseEnter={() => setHoveredIndex(index)}
-                            onMouseLeave={() => setHoveredIndex(null)}
-                            className="group relative border-b border-white/10 py-8 md:py-10 cursor-pointer transition-colors"
-                        >
-                            {/* Hover background with glassmorphism */}
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: hoveredIndex === index ? 1 : 0 }}
-                                transition={{ duration: 0.3 }}
-                                className="absolute inset-0 bg-gradient-to-r from-[#356DE8]/10 via-white/[0.02] to-transparent backdrop-blur-sm"
-                            />
-
-                            <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 px-4">
-                                {/* Service Number */}
-                                <span className="text-[#00D9FF] font-mono text-sm w-8">
-                                    {service.id}
-                                </span>
-
-                                {/* Icon */}
-                                <div className="hidden md:flex w-12 h-12 rounded-xl bg-white/5 items-center justify-center group-hover:bg-[#356DE8]/20 transition-colors">
-                                    <service.icon className="w-5 h-5 text-white/50 group-hover:text-[#00D9FF] transition-colors" />
-                                </div>
-
-                                {/* Title */}
-                                <h3 className="text-2xl sm:text-3xl md:text-4xl text-white font-medium flex-1 group-hover:text-[#00D9FF] transition-colors">
-                                    {service.title}
-                                </h3>
-
-                                {/* Description - appears on hover */}
-                                <motion.div
-                                    initial={{ width: 0, opacity: 0 }}
-                                    animate={{
-                                        width: hoveredIndex === index ? "auto" : 0,
-                                        opacity: hoveredIndex === index ? 1 : 0,
-                                    }}
-                                    transition={{ duration: 0.3 }}
-                                    className="hidden lg:block overflow-hidden"
-                                >
-                                    <p className="text-gray-400 max-w-xs text-sm whitespace-nowrap pr-8">
-                                        {service.description}
-                                    </p>
-                                </motion.div>
-
-                                {/* Arrow */}
-                                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-gradient-to-r group-hover:from-[#356DE8] group-hover:to-[#00D9FF] transition-all">
-                                    <ArrowUpRight className="w-5 h-5 text-white/50 group-hover:text-white group-hover:rotate-45 transition-all" />
-                                </div>
-                            </div>
-                        </motion.div>
+                        <GlowingServiceCard key={service.id} service={service} index={index} />
                     ))}
                 </div>
             </div>
