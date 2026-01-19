@@ -1,57 +1,80 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import Link from "next/link"
+import { motion } from "framer-motion";
+import NextLink from "next/link";
+import { Home, ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
     return (
-        <div className="relative min-h-screen grid grid-rows-[1fr_auto_1fr] items-center justify-items-center p-6 sm:p-20 font-sans bg-gradient-to-br from-[#0E0E0F] to-[#1A1A1C] text-white overflow-hidden">
+        <div className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 bg-[#0A1628] text-white overflow-hidden">
+            {/* Background Glows */}
+            <div className="absolute top-[-100px] left-[-100px] w-[400px] h-[400px] bg-[#356DE8]/20 blur-[150px] rounded-full" />
+            <div className="absolute bottom-[-120px] right-[-80px] w-[300px] h-[300px] bg-[#00D9FF]/20 blur-[120px] rounded-full" />
 
-            {/* Glowing BG blobs */}
-            <div className="absolute top-[-100px] left-[-100px] w-[400px] h-[400px] bg-red-500/20 blur-[150px] rounded-full animate-pulse"></div>
-            <div className="absolute bottom-[-120px] right-[-80px] w-[300px] h-[300px] bg-yellow-500/20 blur-[120px] rounded-full animate-pulse"></div>
-
-            <main className="row-start-2 flex flex-col gap-10 items-center text-center z-10">
-
-                {/* Error Code */}
-                <motion.h1
-                    initial={{ opacity: 0, scale: 0.95 }}
+            <main className="flex flex-col items-center text-center z-10">
+                {/* 404 Number */}
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.6 }}
-                    className="text-7xl sm:text-8xl font-extrabold bg-gradient-to-r from-[#FF3E3E] to-[#FF9900] bg-clip-text text-transparent drop-shadow-lg"
+                    className="relative mb-8"
                 >
-                    404
+                    <span className="text-[12rem] sm:text-[16rem] font-bold leading-none bg-gradient-to-b from-white/20 to-transparent bg-clip-text text-transparent select-none">
+                        404
+                    </span>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-6xl sm:text-8xl font-bold text-white">404</span>
+                    </div>
+                </motion.div>
+
+                {/* Message */}
+                <motion.h1
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.6 }}
+                    className="text-2xl sm:text-4xl font-serif text-white mb-4"
+                >
+                    Page Not <span className="italic text-white/60">Found</span>
                 </motion.h1>
 
-                {/* Error Message */}
                 <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3, duration: 0.6 }}
-                    className="text-lg sm:text-xl text-gray-300 font-medium"
+                    transition={{ delay: 0.4, duration: 0.6 }}
+                    className="text-gray-400 max-w-md mb-10 text-lg"
                 >
-                    Oops! The page you're looking for doesn't exist.
+                    The page you&apos;re looking for doesn&apos;t exist or has been moved.
                 </motion.p>
 
-                {/* Return Home Button */}
+                {/* CTAs */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5, duration: 0.5 }}
+                    transition={{ delay: 0.6, duration: 0.5 }}
+                    className="flex flex-col sm:flex-row items-center gap-4"
                 >
-                    <Link
+                    <NextLink
                         href="/"
-                        className="inline-block bg-[#B9FF3E] text-black font-semibold px-6 py-3 rounded-xl hover:scale-105 transition-transform"
+                        className="group px-8 py-4 bg-white text-[#0A1628] font-semibold rounded-full hover:bg-[#356DE8] hover:text-white transition-all flex items-center gap-2"
                     >
+                        <Home className="w-4 h-4" />
                         Go Home
-                    </Link>
+                    </NextLink>
+
+                    <button
+                        onClick={() => window.history.back()}
+                        className="group px-8 py-4 bg-white/5 border border-white/10 backdrop-blur-md rounded-full text-white font-medium transition-all hover:bg-white hover:text-[#0A1628] flex items-center gap-2"
+                    >
+                        <ArrowLeft className="w-4 h-4" />
+                        Go Back
+                    </button>
                 </motion.div>
             </main>
 
             {/* Footer */}
-            <footer className="row-start-3 z-10 text-sm text-gray-500 mt-6 text-center">
-                &copy; {new Date().getFullYear()} Hevarto. All rights reserved.
+            <footer className="absolute bottom-8 text-sm text-gray-500">
+                © {new Date().getFullYear()} Hevarto. All rights reserved.
             </footer>
         </div>
-    )
+    );
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
 import { Github, Linkedin, Twitter, Instagram, ArrowUpRight } from "lucide-react";
 import NextLink from "next/link";
 
@@ -42,38 +41,7 @@ const socialLinks = [
     { icon: Github, href: "#", label: "GitHub" },
 ];
 
-// Flickering text effect component
-function FlickeringLetter({ letter, index }: { letter: string; index: number }) {
-    const [opacity, setOpacity] = useState(1);
-
-    useEffect(() => {
-        const flickerInterval = setInterval(() => {
-            // Random flicker between 0.3 and 1
-            setOpacity(Math.random() > 0.7 ? 0.3 + Math.random() * 0.3 : 1);
-        }, 100 + Math.random() * 200);
-
-        return () => clearInterval(flickerInterval);
-    }, []);
-
-    return (
-        <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity }}
-            transition={{ duration: 0.1 }}
-            className="inline-block"
-            style={{
-                textShadow: opacity > 0.8 ? "0 0 20px rgba(53, 109, 232, 0.5), 0 0 40px rgba(53, 109, 232, 0.3)" : "none",
-                animationDelay: `${index * 50}ms`,
-            }}
-        >
-            {letter === " " ? "\u00A0" : letter}
-        </motion.span>
-    );
-}
-
 export default function Footer() {
-    const brandName = "HEVARTO";
-
     return (
         <footer className="w-full bg-[#0A1628] text-white pt-20 pb-8 px-4 sm:px-6 relative overflow-hidden">
             {/* Background Effects */}
@@ -161,15 +129,27 @@ export default function Footer() {
                     ))}
                 </div>
 
-                {/* Large Flickering Brand Text */}
-                <div className="py-12 border-t border-white/10">
-                    <div className="flex justify-center overflow-hidden">
-                        <h2 className="text-[8vw] sm:text-[10vw] lg:text-[12vw] font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#356DE8] via-white to-[#00D9FF] select-none leading-none">
-                            {brandName.split("").map((letter, index) => (
-                                <FlickeringLetter key={index} letter={letter} index={index} />
-                            ))}
+                {/* Large Brand Text with Top-to-Bottom Fade */}
+                <div className="py-16 border-t border-white/10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        viewport={{ once: true }}
+                        className="flex justify-center overflow-hidden"
+                    >
+                        <h2
+                            className="text-[10vw] sm:text-[12vw] lg:text-[14vw] font-bold tracking-tighter select-none leading-none"
+                            style={{
+                                background: "linear-gradient(to bottom, white 0%, rgba(53, 109, 232, 0.8) 50%, rgba(53, 109, 232, 0.2) 80%, transparent 100%)",
+                                WebkitBackgroundClip: "text",
+                                WebkitTextFillColor: "transparent",
+                                backgroundClip: "text",
+                            }}
+                        >
+                            HEVARTO
                         </h2>
-                    </div>
+                    </motion.div>
                 </div>
 
                 {/* Newsletter / CTA Section */}

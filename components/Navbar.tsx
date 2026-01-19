@@ -74,8 +74,11 @@ export default function Navbar() {
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
     return (
-        <nav className="fixed top-0 left-0 right-0 z-50 p-4 sm:p-6 transition-all duration-300">
-            <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+            {/* Glass Background */}
+            <div className="absolute inset-0 bg-[#0A1628]/70 backdrop-blur-xl border-b border-white/5" />
+
+            <div className="relative max-w-7xl mx-auto flex items-center justify-between p-4 sm:p-6">
                 {/* Logo */}
                 <NextLink href="/" className="z-50 relative group flex items-center gap-2">
                     {/* Hexagonal Logo Mark */}

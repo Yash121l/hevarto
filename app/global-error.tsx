@@ -1,15 +1,16 @@
-"use client"
+"use client";
 
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { motion } from "framer-motion"
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { RefreshCw, Home, AlertOctagon } from "lucide-react";
 
 export default function GlobalError({ error, reset }: { error: Error; reset: () => void }) {
-    const router = useRouter()
+    const router = useRouter();
 
     useEffect(() => {
-        console.error("Global Error:", error)
-    }, [error])
+        console.error("Global Error:", error);
+    }, [error]);
 
     return (
         <html lang="en">
@@ -20,54 +21,174 @@ export default function GlobalError({ error, reset }: { error: Error; reset: () 
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
                 <link
-                    href="https://fonts.googleapis.com/css2?family=Geist+Sans:wght@400;600;700&display=swap"
+                    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
                     rel="stylesheet"
                 />
                 <style>{`
-          body {
-            margin: 0;
-            font-family: 'Geist Sans', sans-serif;
-            background: linear-gradient(to bottom right, #0E0E0F, #1A1A1C);
-            color: white;
-          }
-        `}</style>
+                    * { margin: 0; padding: 0; box-sizing: border-box; }
+                    body {
+                        font-family: 'Inter', sans-serif;
+                        background: #0A1628;
+                        color: white;
+                        min-height: 100vh;
+                    }
+                    .gradient-text {
+                        background: linear-gradient(135deg, #356DE8, #00D9FF);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                    }
+                `}</style>
             </head>
             <body>
-                <div className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 text-center overflow-hidden">
-                    {/* Glowing Blobs */}
-                    <div className="absolute top-[-100px] left-[-100px] w-[300px] h-[300px] bg-red-500/20 blur-[120px] rounded-full animate-pulse"></div>
-                    <div className="absolute bottom-[-100px] right-[-100px] w-[280px] h-[280px] bg-orange-500/20 blur-[120px] rounded-full animate-pulse"></div>
+                <div style={{
+                    position: "relative",
+                    minHeight: "100vh",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "24px",
+                    overflow: "hidden",
+                }}>
+                    {/* Background Glows */}
+                    <div style={{
+                        position: "absolute",
+                        top: "-100px",
+                        left: "-100px",
+                        width: "400px",
+                        height: "400px",
+                        background: "rgba(53, 109, 232, 0.15)",
+                        filter: "blur(150px)",
+                        borderRadius: "50%",
+                    }} />
+                    <div style={{
+                        position: "absolute",
+                        bottom: "-100px",
+                        right: "-100px",
+                        width: "350px",
+                        height: "350px",
+                        background: "rgba(107, 95, 255, 0.15)",
+                        filter: "blur(120px)",
+                        borderRadius: "50%",
+                    }} />
 
-                    <motion.h1
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="text-5xl sm:text-6xl font-extrabold bg-gradient-to-r from-[#FF3E3E] to-[#FF9900] bg-clip-text text-transparent drop-shadow-lg"
+                    {/* Icon */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.5 }}
+                        style={{
+                            width: "80px",
+                            height: "80px",
+                            borderRadius: "16px",
+                            background: "rgba(255, 255, 255, 0.05)",
+                            border: "1px solid rgba(255, 255, 255, 0.1)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            marginBottom: "32px",
+                        }}
                     >
-                        App Crashed
+                        <AlertOctagon style={{ width: "40px", height: "40px", color: "#FF6B6B" }} />
+                    </motion.div>
+
+                    {/* Title */}
+                    <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 0.6 }}
+                        style={{
+                            fontSize: "clamp(28px, 5vw, 48px)",
+                            fontWeight: "600",
+                            textAlign: "center",
+                            marginBottom: "16px",
+                        }}
+                    >
+                        Application <span className="gradient-text">Crashed</span>
                     </motion.h1>
 
-                    <p className="text-gray-300 mt-4 max-w-md text-base sm:text-lg">
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.4, duration: 0.6 }}
+                        style={{
+                            color: "rgba(255, 255, 255, 0.5)",
+                            textAlign: "center",
+                            maxWidth: "400px",
+                            marginBottom: "40px",
+                            lineHeight: "1.6",
+                        }}
+                    >
                         Something went wrong while loading the app. Please try again or return to the homepage.
-                    </p>
+                    </motion.p>
 
-                    <div className="flex gap-4 mt-8">
+                    {/* CTAs */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6, duration: 0.5 }}
+                        style={{ display: "flex", gap: "16px", flexWrap: "wrap", justifyContent: "center" }}
+                    >
                         <button
                             onClick={reset}
-                            className="bg-[#B9FF3E] text-black font-semibold px-6 py-2 rounded-xl hover:scale-105 transition-transform"
+                            style={{
+                                padding: "16px 32px",
+                                background: "white",
+                                color: "#0A1628",
+                                fontWeight: "600",
+                                borderRadius: "9999px",
+                                border: "none",
+                                cursor: "pointer",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "8px",
+                                fontSize: "16px",
+                                transition: "all 0.3s",
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.background = "#356DE8";
+                                e.currentTarget.style.color = "white";
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.background = "white";
+                                e.currentTarget.style.color = "#0A1628";
+                            }}
                         >
+                            <RefreshCw style={{ width: "16px", height: "16px" }} />
                             Try Again
                         </button>
 
                         <button
                             onClick={() => router.push("/")}
-                            className="bg-white/10 border border-white/20 text-white font-medium px-6 py-2 rounded-xl hover:bg-white/20 transition"
+                            style={{
+                                padding: "16px 32px",
+                                background: "rgba(255, 255, 255, 0.05)",
+                                color: "white",
+                                fontWeight: "500",
+                                borderRadius: "9999px",
+                                border: "1px solid rgba(255, 255, 255, 0.1)",
+                                cursor: "pointer",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "8px",
+                                fontSize: "16px",
+                                transition: "all 0.3s",
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.background = "white";
+                                e.currentTarget.style.color = "#0A1628";
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
+                                e.currentTarget.style.color = "white";
+                            }}
                         >
+                            <Home style={{ width: "16px", height: "16px" }} />
                             Go Home
                         </button>
-                    </div>
+                    </motion.div>
                 </div>
             </body>
         </html>
-    )
+    );
 }
