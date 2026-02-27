@@ -17,14 +17,14 @@ const contactInfo = [
     {
         icon: Phone,
         title: "Call Us",
-        value: "+1 (555) 123-4567",
-        description: "Mon-Fri from 9am to 6pm EST",
+        value: "+91 9306906114",
+        description: "Mon-Fri from 9am to 6pm IST",
     },
     {
         icon: MapPin,
         title: "Visit Us",
-        value: "123 Innovation Drive",
-        description: "San Francisco, CA 94102",
+        value: "SHOP NO.51 2ND FLOOR, Circular Road, HUDA Brass Market",
+        description: "Rewadi, Haryana, 123401",
     },
     {
         icon: Clock,
