@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@/lib/analytics";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useRef, useState, MouseEvent } from "react";
 import { ArrowUpRight } from "lucide-react";
@@ -124,6 +125,7 @@ export default function ProjectGallery() {
                     </h2>
                     <a
                         href="/projects"
+                        onClick={() => track("cta_clicked", { label: "View All Projects", location: "project_gallery", href: "/projects" })}
                         className="group px-6 py-3 bg-white/5 border border-white/10 backdrop-blur-md rounded-full text-white font-medium transition-all duration-300 hover:bg-white hover:text-[#0A1628] flex items-center gap-2"
                     >
                         View All Projects

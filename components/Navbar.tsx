@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@/lib/analytics";
 import { motion, AnimatePresence } from "framer-motion";
 import NextLink from "next/link";
 import { useState, useCallback } from "react";
@@ -165,6 +166,7 @@ export default function Navbar() {
                     ))}
                     <NextLink
                         href="/contact"
+                        onClick={() => track("cta_clicked", { label: "Let's Talk", location: "navbar", href: "/contact" })}
                         className="ml-2 px-5 py-2 bg-white text-[#0A1628] font-semibold rounded-full hover:bg-[#356DE8] hover:text-white transition-all text-sm"
                     >
                         Let&apos;s Talk
@@ -224,7 +226,10 @@ export default function Navbar() {
                     ))}
                     <NextLink
                         href="/contact"
-                        onClick={() => setIsOpen(false)}
+                        onClick={() => {
+                            track("cta_clicked", { label: "Let's Talk", location: "navbar_mobile", href: "/contact" });
+                            setIsOpen(false);
+                        }}
                         className="mt-4 px-8 py-4 bg-white text-[#0A1628] font-semibold rounded-full hover:bg-[#356DE8] hover:text-white transition-all"
                     >
                         Let&apos;s Talk

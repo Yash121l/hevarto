@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@/lib/analytics";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Send, Loader2 } from "lucide-react";
@@ -20,6 +21,15 @@ export default function ContactForm() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
+
+        // Only non-identifying fields; name, email, phone and message text stay out of analytics.
+        const data = new FormData(e.currentTarget);
+        track("contact_form_submitted", {
+            service: data.get("service") || null,
+            budget: data.get("budget") || null,
+            has_phone: Boolean(data.get("phone")),
+            message_length: String(data.get("message") ?? "").length,
+        });
 
         // Simulate form submission
         await new Promise((resolve) => setTimeout(resolve, 2000));

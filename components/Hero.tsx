@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@/lib/analytics";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { MoveRight, Play } from "lucide-react";
 import { useRef } from "react";
@@ -111,13 +112,13 @@ export default function Hero() {
                     transition={{ duration: 0.8, delay: 0.6 }}
                     className="flex flex-col sm:flex-row items-center gap-4"
                 >
-                    <button className="group relative px-8 py-4 bg-white text-[#0A1628] rounded-full font-semibold transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] flex items-center gap-2 overflow-hidden">
+                    <button onClick={() => track("cta_clicked", { label: "Start Your Project", location: "hero" })} className="group relative px-8 py-4 bg-white text-[#0A1628] rounded-full font-semibold transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] flex items-center gap-2 overflow-hidden">
                         <span className="relative z-10 group-hover:text-white transition-colors">Start Your Project</span>
                         <MoveRight className="w-4 h-4 transition-all group-hover:translate-x-1 group-hover:text-white relative z-10" />
                         <div className="absolute inset-0 bg-gradient-to-r from-[#356DE8] to-[#00D9FF] opacity-0 group-hover:opacity-100 transition-opacity" />
                     </button>
 
-                    <button className="group px-8 py-4 bg-white/5 border border-white/10 backdrop-blur-md rounded-full text-white font-medium transition-all hover:bg-white hover:text-[#0A1628] flex items-center gap-3">
+                    <button onClick={() => track("cta_clicked", { label: "Our Showreel", location: "hero" })} className="group px-8 py-4 bg-white/5 border border-white/10 backdrop-blur-md rounded-full text-white font-medium transition-all hover:bg-white hover:text-[#0A1628] flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-white/10 group-hover:bg-[#356DE8] text-white flex items-center justify-center transition-colors">
                             <Play className="w-3 h-3 fill-current ml-0.5" />
                         </div>
