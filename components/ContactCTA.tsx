@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@/lib/analytics";
 import { motion } from "framer-motion";
 import { MoveRight } from "lucide-react";
 
@@ -30,11 +31,11 @@ export default function ContactCTA() {
                             Let's discuss how we can help you achieve your digital goals. No commitment, just a conversation.
                         </p>
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <button className="group px-8 py-4 bg-gradient-to-r from-[#356DE8] to-[#00D9FF] text-white rounded-full font-semibold transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(65,105,255,0.4)] flex items-center gap-2">
+                            <button onClick={() => track("cta_clicked", { label: "Get Started", location: "contact_cta" })} className="group px-8 py-4 bg-gradient-to-r from-[#356DE8] to-[#00D9FF] text-white rounded-full font-semibold transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(65,105,255,0.4)] flex items-center gap-2">
                                 Get Started
                                 <MoveRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                             </button>
-                            <button className="px-8 py-4 bg-white/5 border border-white/10 backdrop-blur-md rounded-full text-white font-medium transition-all hover:bg-white/10 hover:border-[#356DE8]/30">
+                            <button onClick={() => track("cta_clicked", { label: "View Our Work", location: "contact_cta" })} className="px-8 py-4 bg-white/5 border border-white/10 backdrop-blur-md rounded-full text-white font-medium transition-all hover:bg-white/10 hover:border-[#356DE8]/30">
                                 View Our Work
                             </button>
                         </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@/lib/analytics";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Check, Sparkles } from "lucide-react";
@@ -87,7 +88,10 @@ export default function Pricing() {
                             Monthly
                         </span>
                         <button
-                            onClick={() => setIsYearly(!isYearly)}
+                            onClick={() => {
+                                track("pricing_billing_toggled", { billing: isYearly ? "monthly" : "yearly" });
+                                setIsYearly(!isYearly);
+                            }}
                             className="relative w-16 h-8 rounded-full bg-white/10 border border-white/20 p-1 transition-colors hover:bg-white/15"
                         >
                             <motion.div
@@ -164,6 +168,13 @@ export default function Pricing() {
                                 </ul>
 
                                 <button
+                                    onClick={() =>
+                                        track("pricing_plan_selected", {
+                                            plan: plan.name,
+                                            billing: isYearly ? "yearly" : "monthly",
+                                            price_usd: isYearly ? plan.yearlyPrice : plan.monthlyPrice,
+                                        })
+                                    }
                                     className={`w-full py-4 rounded-full font-semibold transition-all duration-300 ${plan.popular
                                         ? "bg-gradient-to-r from-[#356DE8] to-[#00D9FF] text-white hover:scale-105 hover:shadow-[0_0_30px_rgba(65,105,255,0.4)]"
                                         : "bg-white/10 text-white hover:bg-white/20"
@@ -184,7 +195,7 @@ export default function Pricing() {
                     className="text-center text-gray-500 text-sm mt-12"
                 >
                     Need a custom solution?{" "}
-                    <a href="#contact" className="text-[#00D9FF] hover:underline">
+                    <a href="#contact" onClick={() => track("cta_clicked", { label: "Contact us", location: "pricing", href: "#contact" })} className="text-[#00D9FF] hover:underline">
                         Contact us
                     </a>{" "}
                     for a tailored quote.
